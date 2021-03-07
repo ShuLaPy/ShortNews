@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   media: {
-    backgroundColor: 'blue',
+    backgroundColor: '#E93457',
     flex: 3.5,
   },
   content: {
