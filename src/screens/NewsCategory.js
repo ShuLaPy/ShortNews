@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  BackHandler,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useDispatch} from 'react-redux';
@@ -42,16 +43,33 @@ const CATEGORIES = [
   },
 ];
 
-const NewsCategory = ({carouselRef}) => {
+const NewsCategory = ({carouselRef, moveToPage}) => {
   const [list, setList] = useState([]);
   const dispatch = useDispatch();
 
   const fetchShorts = (category) => {
     dispatch(fetchLatesthorts(category))
-      .then((response) => carouselRef.current.snapToItem(0))
+      .then((response) => {
+        carouselRef.current.snapToItem(0);
+        moveToPage(1);
+      })
       .catch((error) => console.log(error));
     dispatch(setCategory(category));
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      moveToPage(1);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   useEffect(() => {
     axios

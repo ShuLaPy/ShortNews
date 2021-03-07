@@ -20,7 +20,7 @@ import {fetchLatesthorts} from '../redux/actions';
 
 const BOTTOM_HEIGHT = Dimensions.get('window').height / 10;
 
-const NewsCard = ({article, carouselRef}) => {
+const NewsCard = ({article, carouselRef, moveToPage}) => {
   const viewRef = useRef();
   const [show, setShow] = useState(false);
   const [bottomHeight, setBottomHeight] = useState(
@@ -64,7 +64,6 @@ const NewsCard = ({article, carouselRef}) => {
   };
 
   const shareImage = async () => {
-    console.log('Shubham na bhai');
     try {
       // capture component
       const uri = await captureRef(viewRef, {
@@ -113,7 +112,7 @@ const NewsCard = ({article, carouselRef}) => {
             borderBottomEndRadius: 5,
             borderBottomWidth: 1,
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => moveToPage(0)}>
             <MaterialIcons name="arrow-back-ios" size={18} color="blue" />
           </TouchableOpacity>
           <Text style={{fontWeight: '700', color: '#E93457', fontSize: 20}}>

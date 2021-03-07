@@ -1,13 +1,23 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, Text, StyleSheet, Dimensions, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+  ActivityIndicator,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import NewsCard from '../components/NewsCard';
 import {fetchLatesthorts, setCurrentCard} from '../redux/actions';
+import DoubleTapToClose from '../components/DoublePress';
 
 const {width, height} = Dimensions.get('window');
 
-const NewsCards = ({carouselRef}) => {
+const NewsCards = ({carouselRef, moveToPage}) => {
   const [articles, setArticles] = useState();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -19,7 +29,12 @@ const NewsCards = ({carouselRef}) => {
 
   const renderItem = ({item, index}) => {
     return (
-      <NewsCard key={String(index)} article={item} carouselRef={carouselRef} />
+      <NewsCard
+        key={String(index)}
+        article={item}
+        carouselRef={carouselRef}
+        moveToPage={moveToPage}
+      />
     );
   };
 
@@ -52,16 +67,19 @@ const NewsCards = ({carouselRef}) => {
 
   if (shortsList.length === 0) {
     return (
-      <Pressable style={styles.container} onPress={fetchShorts}>
-        <Text>No data Present</Text>
-      </Pressable>
+      <View style={styles.container}>
+        <Image style={styles.image} source={require('./data-pana.png')} />
+        <TouchableOpacity style={styles.button} onPress={fetchShorts}>
+          <Text style={{color: 'white'}}>Refresh</Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 
   return (
     <View style={styles.container}>
       {loading ? (
-        <Text>Loading Data ...</Text>
+        <ActivityIndicator size="large" color="#E93457" />
       ) : (
         <Carousel
           data={articles}
@@ -82,6 +100,7 @@ const NewsCards = ({carouselRef}) => {
           // ListEmptyComponent={<ShortsLoader />}
         />
       )}
+      <DoubleTapToClose />
     </View>
   );
 };
@@ -91,6 +110,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    height: '50%',
+  },
+  button: {
+    borderRadius: 25,
+    backgroundColor: '#E93457',
+    paddingHorizontal: 25,
+    paddingVertical: 10,
   },
 });
 

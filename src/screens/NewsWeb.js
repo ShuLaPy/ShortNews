@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  BackHandler,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import MaterialCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ProgressBar from 'react-native-progress/Bar';
@@ -8,7 +15,7 @@ import Url from 'url-parse';
 import {useSelector} from 'react-redux';
 
 // E93457;
-const NewsWeb = () => {
+const NewsWeb = ({moveToPage}) => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [progressBar, setProgressBar] = useState(true);
   const [selectedCard, setSelectedCard] = useState({});
@@ -23,13 +30,27 @@ const NewsWeb = () => {
   };
 
   useEffect(() => {
+    const backAction = () => {
+      moveToPage(1);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  useEffect(() => {
     if (shortsList) setSelectedCard(shortsList[card]);
   }, [card, shortsList]);
 
   if (shortsList.length === 0 || !selectedCard) {
     return (
       <View style={styles.container}>
-        <Text>Loading Data....</Text>
+        <ActivityIndicator size="large" color="#E93457" />
       </View>
     );
   }
@@ -37,7 +58,9 @@ const NewsWeb = () => {
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <MaterialIcons name="arrow-back-ios" size={16} color="#fff" />
+        <TouchableOpacity onPress={() => moveToPage(1)}>
+          <MaterialIcons name="arrow-back-ios" size={16} color="#fff" />
+        </TouchableOpacity>
         <Text style={{color: 'white'}}>
           {getHostName(selectedCard?.source_url)}
         </Text>
