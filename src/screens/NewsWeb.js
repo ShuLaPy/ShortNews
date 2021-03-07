@@ -1,19 +1,38 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import MaterialCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ProgressBar from 'react-native-progress/Bar';
 import {WebView} from 'react-native-webview';
+import Url from 'url-parse';
+import {useSelector} from 'react-redux';
 
 // E93457;
 const NewsWeb = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [progressBar, setProgressBar] = useState(true);
+  const [selectedCard, setSelectedCard] = useState({});
+
+  const shorts = useSelector((state) => state.shorts);
+  const {shortsList} = shorts;
+  const card = useSelector((state) => state.card);
+
+  const getHostName = (url) => {
+    var loc = new Url(url);
+    return loc.hostname;
+  };
+
+  useEffect(() => {
+    setSelectedCard(shortsList[card]);
+  }, [card, shortsList]);
+
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
         <MaterialIcons name="arrow-back-ios" size={16} color="#fff" />
-        <Text style={{color: 'white'}}>www.google.com</Text>
+        <Text style={{color: 'white'}}>
+          {getHostName(selectedCard.source_url)}
+        </Text>
         <MaterialCommunity name="dots-vertical" size={16} color="#fff" />
       </View>
       {progressBar && (
@@ -27,7 +46,7 @@ const NewsWeb = () => {
         />
       )}
       <WebView
-        source={{uri: 'https://amazon.in'}}
+        source={{uri: selectedCard.source_url}}
         onError={() => alert('Error Occured')}
         onLoadProgress={({nativeEvent}) =>
           setLoadingProgress(nativeEvent.progress)
