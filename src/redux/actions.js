@@ -10,6 +10,10 @@ export const fetchLatesthorts = (category) => (dispatch) => {
           type: ShortsConstants.FETCH_NEW_SHORTS,
           payload: response.data.articles,
         });
+        dispatch({
+          type: ShortsConstants.SELECT_CARD,
+          payload: 0,
+        });
         resolve(response);
       })
       .catch((err) => {

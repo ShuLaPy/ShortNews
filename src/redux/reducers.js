@@ -1,6 +1,6 @@
 import * as ShortsConstants from './constants';
 
-export const ShortsReducer = (state = {}, action) => {
+export const ShortsReducer = (state = {shortsList: []}, action) => {
   switch (action.type) {
     case ShortsConstants.FETCH_NEW_SHORTS:
       return {shortsList: action.payload};

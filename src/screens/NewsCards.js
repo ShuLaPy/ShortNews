@@ -1,14 +1,13 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, Pressable} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import NewsCard from '../components/NewsCard';
 import {fetchLatesthorts, setCurrentCard} from '../redux/actions';
 
 const {width, height} = Dimensions.get('window');
 
-const NewsCards = () => {
-  const carouselRef = useRef(null);
+const NewsCards = ({carouselRef}) => {
   const [articles, setArticles] = useState();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -16,8 +15,12 @@ const NewsCards = () => {
   const shorts = useSelector((state) => state.shorts);
   const {shortsList} = shorts;
 
+  const card = useSelector((state) => state.card);
+
   const renderItem = ({item, index}) => {
-    return <NewsCard key={String(index)} article={item} />;
+    return (
+      <NewsCard key={String(index)} article={item} carouselRef={carouselRef} />
+    );
   };
 
   const onSlideChange = (index) => {
@@ -25,7 +28,7 @@ const NewsCards = () => {
     dispatch(setCurrentCard(index));
   };
 
-  useEffect(() => {
+  const fetchShorts = () => {
     setLoading(true);
     dispatch(fetchLatesthorts('all_news'))
       .then((resp) => {
@@ -36,12 +39,24 @@ const NewsCards = () => {
         console.log('Error : ', err);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchShorts();
   }, []);
 
   useEffect(() => {
     setArticles(shortsList);
     console.log('ShortLists : ', shortsList);
   }, [shortsList]);
+
+  if (shortsList.length === 0) {
+    return (
+      <Pressable style={styles.container} onPress={fetchShorts}>
+        <Text>No data Present</Text>
+      </Pressable>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -61,6 +76,8 @@ const NewsCards = () => {
           swipeThreshold={70}
           nestedScrollEnabled
           windowSize={5}
+          firstItem={card}
+          ref={carouselRef}
           onSnapToItem={onSlideChange}
           // ListEmptyComponent={<ShortsLoader />}
         />

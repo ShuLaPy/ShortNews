@@ -23,15 +23,23 @@ const NewsWeb = () => {
   };
 
   useEffect(() => {
-    setSelectedCard(shortsList[card]);
+    if (shortsList) setSelectedCard(shortsList[card]);
   }, [card, shortsList]);
+
+  if (shortsList.length === 0 || !selectedCard) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading Data....</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
         <MaterialIcons name="arrow-back-ios" size={16} color="#fff" />
         <Text style={{color: 'white'}}>
-          {getHostName(selectedCard.source_url)}
+          {getHostName(selectedCard?.source_url)}
         </Text>
         <MaterialCommunity name="dots-vertical" size={16} color="#fff" />
       </View>

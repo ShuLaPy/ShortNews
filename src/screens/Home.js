@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import ViewPager from '@react-native-community/viewpager';
 
@@ -7,13 +7,14 @@ import NewsCategory from './NewsCategory';
 import NewsWeb from './NewsWeb';
 
 const Home = () => {
+  const carouselRef = useRef(null);
   return (
     <ViewPager style={styles.container} initialPage={1}>
       <View key="1">
-        <NewsCategory />
+        <NewsCategory carouselRef={carouselRef} />
       </View>
       <View key="2">
-        <NewsCards />
+        <NewsCards carouselRef={carouselRef} />
       </View>
       <View key="3">
         <NewsWeb />

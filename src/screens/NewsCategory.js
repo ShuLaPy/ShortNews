@@ -12,6 +12,8 @@ import {
   Dimensions,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {useDispatch} from 'react-redux';
+import {fetchLatesthorts, setCategory} from '../redux/actions';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const MARGIN_HORIZONTAL = 24;
@@ -40,8 +42,17 @@ const CATEGORIES = [
   },
 ];
 
-const NewsCategory = () => {
+const NewsCategory = ({carouselRef}) => {
   const [list, setList] = useState([]);
+  const dispatch = useDispatch();
+
+  const fetchShorts = (category) => {
+    dispatch(fetchLatesthorts(category))
+      .then((response) => carouselRef.current.snapToItem(0))
+      .catch((error) => console.log(error));
+    dispatch(setCategory(category));
+  };
+
   useEffect(() => {
     axios
       .get('https://inshorts.com/api/en/search/trending_topics')
@@ -66,6 +77,7 @@ const NewsCategory = () => {
             return (
               <Pressable
                 key={String(item.id)}
+                onPress={() => fetchShorts(item.id)}
                 style={{
                   marginHorizontal: 20,
                   marginVertical: 8,
@@ -99,6 +111,7 @@ const NewsCategory = () => {
             return (
               <View key={topic.tag} style={styles.menuOuterWrapper}>
                 <TouchableOpacity
+                  onPress={() => fetchShorts(topic.tag)}
                   style={[
                     styles.menuInnerWrapper,
                     {
