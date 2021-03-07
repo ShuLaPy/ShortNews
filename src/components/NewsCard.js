@@ -15,15 +15,33 @@ import ImageMarker from 'react-native-image-marker';
 // import RNFetchBlob from 'rn-fetch-blob';
 import Share from 'react-native-share';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchLatesthorts} from '../redux/actions';
 
 const BOTTOM_HEIGHT = Dimensions.get('window').height / 10;
 
-const NewsCard = ({article}) => {
+const NewsCard = ({article, carouselRef, moveToPage}) => {
   const viewRef = useRef();
   const [show, setShow] = useState(false);
   const [bottomHeight, setBottomHeight] = useState(
     new Animated.Value(BOTTOM_HEIGHT),
   );
+
+  const dispatch = useDispatch();
+  const category = useSelector((state) => state.category);
+
+  const card = useSelector((state) => state.card);
+
+  const firstCard = () => {
+    carouselRef.current.snapToItem(0);
+  };
+
+  const refreshShorts = () => {
+    dispatch(fetchLatesthorts(category)).then((response) =>
+      console.log(response.data),
+    );
+  };
+
   const onPress = () => {
     if (!show) {
       Animated.spring(bottomHeight, {
@@ -46,7 +64,6 @@ const NewsCard = ({article}) => {
   };
 
   const shareImage = async () => {
-    console.log('Shubham na bhai');
     try {
       // capture component
       const uri = await captureRef(viewRef, {
@@ -95,15 +112,21 @@ const NewsCard = ({article}) => {
             borderBottomEndRadius: 5,
             borderBottomWidth: 1,
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => moveToPage(0)}>
             <MaterialIcons name="arrow-back-ios" size={18} color="blue" />
           </TouchableOpacity>
           <Text style={{fontWeight: '700', color: '#E93457', fontSize: 20}}>
             ShortNews
           </Text>
-          <TouchableOpacity>
-            <MaterialIcons name="refresh" size={18} color="blue" />
-          </TouchableOpacity>
+          {card === 0 ? (
+            <TouchableOpacity onPress={refreshShorts}>
+              <MaterialIcons name="refresh" size={18} color="blue" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={firstCard}>
+              <MaterialIcons name="vertical-align-top" size={18} color="blue" />
+            </TouchableOpacity>
+          )}
         </View>
       )}
 
