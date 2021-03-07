@@ -95,11 +95,15 @@ const NewsCard = ({article}) => {
             borderBottomEndRadius: 5,
             borderBottomWidth: 1,
           }}>
-          <MaterialIcons name="arrow-back-ios" size={18} color="blue" />
+          <TouchableOpacity>
+            <MaterialIcons name="arrow-back-ios" size={18} color="blue" />
+          </TouchableOpacity>
           <Text style={{fontWeight: '700', color: '#E93457', fontSize: 20}}>
             ShortNews
           </Text>
-          <MaterialIcons name="refresh" size={18} color="blue" />
+          <TouchableOpacity>
+            <MaterialIcons name="refresh" size={18} color="blue" />
+          </TouchableOpacity>
         </View>
       )}
 
