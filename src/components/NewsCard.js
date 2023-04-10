@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {captureRef} from 'react-native-view-shot';
+import ViewShot from 'react-native-view-shot';
 import ImageMarker from 'react-native-image-marker';
 // import RNFetchBlob from 'rn-fetch-blob';
 import Share from 'react-native-share';
@@ -66,14 +66,16 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
   const shareImage = async () => {
     try {
       // capture component
-      const uri = await captureRef(viewRef, {
-        format: 'png',
-        quality: 0.8,
-      });
+      // const uri = await captureRef(viewRef, {
+      //   format: 'png',
+      //   quality: 0.8,
+      // });
+
+      const uri = await viewRef.current.capture();
 
       ImageMarker.markText({
         src: uri,
-        text: 'ShareNews',
+        text: 'ShortNews',
         position: 'bottomRight',
         color: '#E93457',
         fontName: 'Arial-BoldItalicMT',
@@ -132,10 +134,11 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
 
       <TouchableWithoutFeedback onPress={onPress}>
         <View style={styles.container}>
-          <View
+          <ViewShot
+            ref={viewRef}
+            options={{fileName: 'Your-File-Name', format: 'jpg', quality: 0.9}}
             collapsable={false}
-            style={{flex: 8.5, width: '100%'}}
-            ref={viewRef}>
+            style={{flex: 8.5, width: '100%'}}>
             <View style={styles.media}>
               <FastImage
                 style={{flex: 1}}
@@ -180,7 +183,7 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
                 {article.byline}
               </Text>
             </View>
-          </View>
+          </ViewShot>
           <ImageBackground
             source={{
               uri: article.image,
