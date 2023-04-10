@@ -28,16 +28,16 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
   );
 
   const dispatch = useDispatch();
-  const category = useSelector((state) => state.category);
+  const category = useSelector(state => state.category);
 
-  const card = useSelector((state) => state.card);
+  const card = useSelector(state => state.card);
 
   const firstCard = () => {
     carouselRef.current.snapToItem(0);
   };
 
   const refreshShorts = () => {
-    dispatch(fetchLatesthorts(category)).then((response) =>
+    dispatch(fetchLatesthorts(category)).then(response =>
       console.log(response.data),
     );
   };
@@ -80,7 +80,7 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
         fontSize: 44,
         scale: 1,
         quality: 100,
-      }).then((res) => {
+      }).then(res => {
         const options = {
           title: 'Share Image',
           url: 'file://' + res,

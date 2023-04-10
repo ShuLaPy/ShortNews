@@ -1,11 +1,10 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
-  Pressable,
   ActivityIndicator,
   Image,
   TouchableOpacity,
@@ -22,10 +21,10 @@ const NewsCards = ({carouselRef, moveToPage}) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const shorts = useSelector((state) => state.shorts);
+  const shorts = useSelector(state => state.shorts);
   const {shortsList} = shorts;
 
-  const card = useSelector((state) => state.card);
+  const card = useSelector(state => state.card);
 
   const renderItem = ({item, index}) => {
     return (
@@ -38,7 +37,7 @@ const NewsCards = ({carouselRef, moveToPage}) => {
     );
   };
 
-  const onSlideChange = (index) => {
+  const onSlideChange = index => {
     console.log(index);
     dispatch(setCurrentCard(index));
   };
@@ -46,11 +45,11 @@ const NewsCards = ({carouselRef, moveToPage}) => {
   const fetchShorts = () => {
     setLoading(true);
     dispatch(fetchLatesthorts('all_news'))
-      .then((resp) => {
+      .then(resp => {
         console.log('Response : ', resp.data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('Error : ', err);
         setLoading(false);
       });
