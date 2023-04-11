@@ -44,6 +44,8 @@ const Auth = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.logo}>ShortNews</Text>
+      <Text style={styles.subtext}>Please sign in to continue</Text>
       <GoogleSigninButton onPress={googleLogin} />
     </View>
   );
@@ -62,6 +64,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
+  },
+  logo: {fontWeight: '700', color: '#E93457', fontSize: 40, marginBottom: 20},
+  subtext: {
+    color: '#000000',
+    fontSize: 20,
+    marginBottom: 20,
   },
 });
 
