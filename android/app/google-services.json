@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "116979856448",
+    "project_id": "shortnews-18169",
+    "storage_bucket": "shortnews-18169.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116979856448:android:b0fa1432935ce41d20dba5",
+        "android_client_info": {
+          "package_name": "com.shortnewsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116979856448-r21osfpak9ujovm9ltjoe2tpbmstojol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shortnewsapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "116979856448-jcjsjvmi05csmg89ah982fha60hnib2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVMJtlkqFamfcAQMNB_-SjjDBMYqrac_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116979856448-5mlrja29o073smhfvldhijp4nvdrkbf1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

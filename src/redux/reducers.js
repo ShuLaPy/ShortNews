@@ -31,3 +31,12 @@ export const setCategoryReducer = (state = 0, action) => {
       return state;
   }
 };
+
+export const authReducer = (state = {user: null}, action) => {
+  switch (action.type) {
+    case ShortsConstants.AUTHONTICATION_SUCCESS:
+      return action.payload;
+    default:
+      return state;
+  }
+};
