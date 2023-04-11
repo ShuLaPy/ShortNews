@@ -11,7 +11,7 @@ import {setCurrentUser} from '../redux/actions';
 const Auth = () => {
   const [userInfo, setUserInfo] = useState({});
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     GoogleSignin.configure();
   }, []);
@@ -44,9 +44,6 @@ const Auth = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.btnStyle} onPress={googleLogin}>
-        <Text>Google Login</Text>
-      </TouchableOpacity>
       <GoogleSigninButton onPress={googleLogin} />
     </View>
   );
