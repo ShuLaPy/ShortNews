@@ -35,6 +35,26 @@ export const fetchLatestBookmarks = () => dispatch => {
   });
 };
 
+export const addToBookmarks = article => dispatch => {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: ShortsConstants.ADD_TO_BOOKMARKS,
+      payload: article,
+    });
+    resolve(true);
+  });
+};
+
+export const removeFromBookmarks = article => dispatch => {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: ShortsConstants.REMOVE_FROM_BOOKMARK,
+      payload: article,
+    });
+    resolve(true);
+  });
+};
+
 export const setCurrentCard = index => dispatch => {
   dispatch({
     type: ShortsConstants.SELECT_CARD,

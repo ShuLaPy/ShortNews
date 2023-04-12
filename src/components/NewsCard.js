@@ -16,7 +16,11 @@ import ImageMarker from 'react-native-image-marker';
 import Share from 'react-native-share';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchLatesthorts} from '../redux/actions';
+import {
+  addToBookmarks,
+  fetchLatesthorts,
+  removeFromBookmarks,
+} from '../redux/actions';
 
 const BOTTOM_HEIGHT = Dimensions.get('window').height / 10;
 
@@ -29,6 +33,7 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
 
   const dispatch = useDispatch();
   const category = useSelector(state => state.category);
+  const {bookmarks} = useSelector(state => state.shorts);
 
   const card = useSelector(state => state.card);
 
@@ -95,6 +100,18 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
     }
   };
 
+  const addToBookMark = article => {
+    if (!isBookMarked(article)) {
+      dispatch(addToBookmarks(article));
+    } else {
+      dispatch(removeFromBookmarks(article));
+    }
+  };
+
+  const isBookMarked = article => {
+    return bookmarks.some(post => post.title === article.title);
+  };
+
   return (
     <View style={styles.container}>
       {show && (
@@ -150,16 +167,18 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
               />
             </View>
             <View style={styles.content}>
-              <Text
-                style={{
-                  fontFamily: 'Roboto-Regular',
-                  fontWeight: '500',
-                  fontSize: 18,
-                  lineHeight: 25,
-                  color: 'rgb(0,0,0)',
-                }}>
-                {article.title}
-              </Text>
+              <TouchableOpacity onPress={() => addToBookMark(article)}>
+                <Text
+                  style={{
+                    fontFamily: 'Roboto-Regular',
+                    fontWeight: '500',
+                    fontSize: 18,
+                    lineHeight: 25,
+                    color: isBookMarked(article) ? 'pink' : 'rgb(0,0,0)',
+                  }}>
+                  {article.title}
+                </Text>
+              </TouchableOpacity>
               <Text
                 style={{
                   fontFamily: 'Roboto-Regular',
