@@ -11,6 +11,7 @@
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-native-community/viewpager": "3.3.0",
     "@react-native-firebase/app": "^17.4.2",
     "@react-native-google-signin/google-signin": "^9.0.2",
@@ -36,6 +37,7 @@
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "remote-redux-devtools": "^0.5.16",
     "url-parse": "^1.5.10"
