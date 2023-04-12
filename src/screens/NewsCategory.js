@@ -14,7 +14,11 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useDispatch} from 'react-redux';
-import {fetchLatesthorts, setCategory} from '../redux/actions';
+import {
+  fetchLatesthorts,
+  setCategory,
+  fetchLatestBookmarks,
+} from '../redux/actions';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const MARGIN_HORIZONTAL = 24;
@@ -47,14 +51,23 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
   const [list, setList] = useState([]);
   const dispatch = useDispatch();
 
-  const fetchShorts = (category) => {
+  const fetchShorts = category => {
     dispatch(fetchLatesthorts(category))
-      .then((response) => {
+      .then(response => {
         carouselRef.current.snapToItem(0);
         moveToPage(1);
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
     dispatch(setCategory(category));
+  };
+
+  const fetchBookmarks = category => {
+    dispatch(fetchLatestBookmarks())
+      .then(response => {
+        carouselRef.current.snapToItem(0);
+        moveToPage(1);
+      })
+      .catch(error => console.log(error));
   };
 
   useEffect(() => {
@@ -74,10 +87,10 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
   useEffect(() => {
     axios
       .get('https://inshorts.com/api/en/search/trending_topics')
-      .then((response) => {
+      .then(response => {
         setList(response.data.data.trending_tags);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   }, []);
@@ -95,7 +108,11 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
             return (
               <Pressable
                 key={String(item.id)}
-                onPress={() => fetchShorts(item.id)}
+                onPress={() =>
+                  item.id !== 'bookmarks'
+                    ? fetchShorts(item.id)
+                    : fetchBookmarks()
+                }
                 style={{
                   marginHorizontal: 20,
                   marginVertical: 8,
@@ -125,7 +142,7 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
             marginBottom: 25,
             marginTop: 15,
           }}>
-          {list.map((topic) => {
+          {list.map(topic => {
             return (
               <View key={topic.tag} style={styles.menuOuterWrapper}>
                 <TouchableOpacity

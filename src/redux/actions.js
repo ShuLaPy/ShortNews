@@ -26,6 +26,15 @@ export const fetchLatesthorts = category => dispatch => {
   });
 };
 
+export const fetchLatestBookmarks = () => dispatch => {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: ShortsConstants.FETCH_BOOKMARKS,
+    });
+    resolve(true);
+  });
+};
+
 export const setCurrentCard = index => dispatch => {
   dispatch({
     type: ShortsConstants.SELECT_CARD,
