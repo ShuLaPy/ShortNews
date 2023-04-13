@@ -6,13 +6,10 @@ export const fetchLatesthorts = category => dispatch => {
   return new Promise((resolve, reject) => {
     fetchShorts(category)
       .then(response => {
+        dispatch(setCurrentCard(0));
         dispatch({
           type: ShortsConstants.FETCH_NEW_SHORTS,
           payload: response.data.articles,
-        });
-        dispatch({
-          type: ShortsConstants.SELECT_CARD,
-          payload: 0,
         });
         resolve(response);
       })
@@ -28,6 +25,7 @@ export const fetchLatesthorts = category => dispatch => {
 
 export const fetchLatestBookmarks = () => dispatch => {
   return new Promise((resolve, reject) => {
+    dispatch(setCurrentCard(0));
     dispatch({
       type: ShortsConstants.FETCH_BOOKMARKS,
     });
@@ -56,6 +54,7 @@ export const removeFromBookmarks = article => dispatch => {
 };
 
 export const setCurrentCard = index => dispatch => {
+  console.log('Set Current Card: ', index);
   dispatch({
     type: ShortsConstants.SELECT_CARD,
     payload: index,
