@@ -52,9 +52,10 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
   const dispatch = useDispatch();
 
   const fetchShorts = category => {
+    console.log('Selected Category', category);
     dispatch(fetchLatesthorts(category))
       .then(response => {
-        carouselRef.current.snapToItem(0);
+        carouselRef.current.scrollTo({index: 0, animated: true});
         moveToPage(1);
       })
       .catch(error => console.log(error));
@@ -64,7 +65,7 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
   const fetchBookmarks = category => {
     dispatch(fetchLatestBookmarks())
       .then(response => {
-        carouselRef.current.snapToItem(0);
+        carouselRef.current.scrollTo({index: 0, animated: true});
         moveToPage(1);
       })
       .catch(error => console.log(error));

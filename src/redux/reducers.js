@@ -38,7 +38,7 @@ export const setCardReducer = (state = 0, action) => {
   }
 };
 
-export const setCategoryReducer = (state = 0, action) => {
+export const setCategoryReducer = (state = 'all_news', action) => {
   switch (action.type) {
     case ShortsConstants.SELECT_CATEGORY:
       return action.payload;

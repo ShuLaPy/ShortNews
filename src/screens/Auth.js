@@ -16,10 +16,6 @@ const Auth = () => {
     GoogleSignin.configure();
   }, []);
 
-  useEffect(() => {
-    console.log('UserInfo: ', userInfo);
-  }, [userInfo]);
-
   const googleLogin = async () => {
     try {
       await GoogleSignin.hasPlayServices();

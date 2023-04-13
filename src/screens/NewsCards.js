@@ -9,7 +9,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import Carousel from 'react-native-snap-carousel';
+import Carousel from 'react-native-reanimated-carousel';
 import NewsCard from '../components/NewsCard';
 import {fetchLatesthorts, setCurrentCard} from '../redux/actions';
 import DoubleTapToClose from '../components/DoublePress';
@@ -46,7 +46,6 @@ const NewsCards = ({carouselRef, moveToPage}) => {
     setLoading(true);
     dispatch(fetchLatesthorts('all_news'))
       .then(resp => {
-        console.log('Response : ', resp.data);
         setLoading(false);
       })
       .catch(err => {
@@ -61,7 +60,6 @@ const NewsCards = ({carouselRef, moveToPage}) => {
 
   useEffect(() => {
     setArticles(shortsList);
-    console.log('ShortLists : ', shortsList);
   }, [shortsList]);
 
   if (shortsList.length === 0) {
@@ -81,22 +79,20 @@ const NewsCards = ({carouselRef, moveToPage}) => {
         <ActivityIndicator size="large" color="#E93457" />
       ) : (
         <Carousel
-          data={articles}
+          loop={false}
+          data={articles || []}
           renderItem={renderItem}
-          sliderWidth={width}
-          sliderHeight={height}
-          itemWidth={width}
-          itemHeight={height}
-          inactiveSlideOpacity={1}
-          inactiveSlideScale={1}
+          width={width}
+          height={height}
           vertical={true}
-          swipeThreshold={70}
-          nestedScrollEnabled
-          windowSize={5}
-          firstItem={card}
           ref={carouselRef}
+          defaultIndex={card}
           onSnapToItem={onSlideChange}
-          // ListEmptyComponent={<ShortsLoader />}
+          windowSize={3}
+          overscrollEnabled={false}
+          panGestureHandlerProps={{
+            activeOffsetY: [-10, 10],
+          }}
         />
       )}
       <DoubleTapToClose />

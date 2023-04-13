@@ -38,13 +38,12 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
   const card = useSelector(state => state.card);
 
   const firstCard = () => {
-    carouselRef.current.snapToItem(0);
+    carouselRef?.current.scrollTo({index: 0, animated: true});
   };
 
   const refreshShorts = () => {
-    dispatch(fetchLatesthorts(category)).then(response =>
-      console.log(response.data),
-    );
+    console.log('Category: ', category);
+    dispatch(fetchLatesthorts(category));
   };
 
   const onPress = () => {
