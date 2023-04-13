@@ -125,7 +125,7 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
                     marginBottom: 15,
                   }}
                 />
-                <Text>{item.label}</Text>
+                <Text style={{color: '#000'}}>{item.label}</Text>
               </Pressable>
             );
           }}
@@ -219,6 +219,7 @@ const styles = StyleSheet.create({
   },
   topicLabel: {
     position: 'absolute',
+    color: '#000',
     left: 5,
     right: 0,
     bottom: 0,
