@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -27,6 +27,7 @@ const BOTTOM_HEIGHT = Dimensions.get('window').height / 10;
 const NewsCard = ({article, carouselRef, moveToPage}) => {
   const viewRef = useRef();
   const [show, setShow] = useState(false);
+  const [shareImageUri, setShareImageUri] = useState('');
   const [bottomHeight, setBottomHeight] = useState(
     new Animated.Value(BOTTOM_HEIGHT),
   );
@@ -67,14 +68,12 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
     setShow(!show);
   };
 
-  const shareImage = async () => {
-    try {
-      // capture component
-      // const uri = await captureRef(viewRef, {
-      //   format: 'png',
-      //   quality: 0.8,
-      // });
+  useEffect(() => {
+    captureImage();
+  }, []);
 
+  const captureImage = async () => {
+    try {
       const uri = await viewRef.current.capture();
 
       ImageMarker.markText({
@@ -87,12 +86,22 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
         scale: 1,
         quality: 100,
       }).then(res => {
-        const options = {
-          title: 'Share Image',
-          url: 'file://' + res,
-        };
-        // share
-        Share.open(options);
+        setShareImageUri(res);
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  const shareImage = async () => {
+    try {
+      const options = {
+        title: 'Share Image',
+        url: 'file://' + shareImageUri,
+      };
+      // share
+      Share.open(options).catch(err => {
+        err && console.log(err);
       });
     } catch (error) {
       console.log('error', error);
