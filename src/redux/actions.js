@@ -74,3 +74,15 @@ export const setCurrentUser = userData => dispatch => {
     payload: userData,
   });
 };
+
+export const startPlaying = () => dispatch => {
+  dispatch({
+    type: ShortsConstants.START_PLAYING,
+  });
+};
+
+export const stopPlaying = () => dispatch => {
+  dispatch({
+    type: ShortsConstants.STOP_PLAYING,
+  });
+};

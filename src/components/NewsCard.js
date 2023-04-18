@@ -12,6 +12,7 @@ import {
 import FastImage from 'react-native-fast-image';
 import ViewShot from 'react-native-view-shot';
 import ImageMarker from 'react-native-image-marker';
+import Tts from 'react-native-tts';
 // import RNFetchBlob from 'rn-fetch-blob';
 import Share from 'react-native-share';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -20,6 +21,8 @@ import {
   addToBookmarks,
   fetchLatesthorts,
   removeFromBookmarks,
+  startPlaying,
+  stopPlaying,
 } from '../redux/actions';
 
 const BOTTOM_HEIGHT = Dimensions.get('window').height / 10;
@@ -34,7 +37,7 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
 
   const dispatch = useDispatch();
   const category = useSelector(state => state.category);
-  const {bookmarks} = useSelector(state => state.shorts);
+  const {bookmarks, isPlaying} = useSelector(state => state.shorts);
 
   const card = useSelector(state => state.card);
 
@@ -70,6 +73,13 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
 
   useEffect(() => {
     captureImage();
+  }, []);
+
+  useEffect(() => {
+    if (isPlaying) {
+      Tts.stop();
+      dispatch(stopPlaying());
+    }
   }, []);
 
   const captureImage = async () => {
@@ -118,6 +128,16 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
 
   const isBookMarked = article => {
     return bookmarks.some(post => post.title === article.title);
+  };
+
+  const playPauseReading = content => {
+    if (isPlaying) {
+      dispatch(stopPlaying());
+      Tts.stop();
+    } else {
+      dispatch(startPlaying());
+      Tts.speak(content);
+    }
   };
 
   return (
@@ -211,6 +231,15 @@ const NewsCard = ({article, carouselRef, moveToPage}) => {
               </Text>
             </View>
           </ViewShot>
+          <TouchableOpacity
+            style={styles.speakButton}
+            onPress={() => playPauseReading(article.content)}>
+            {isPlaying ? (
+              <MaterialIcons name="pause" size={30} color="black" />
+            ) : (
+              <MaterialIcons name="play-arrow" size={30} color="black" />
+            )}
+          </TouchableOpacity>
           <ImageBackground
             source={{
               uri: article.image,
@@ -281,6 +310,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 5,
     padding: 20,
+  },
+  speakButton: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    bottom: 75,
+    right: 20,
+    zIndex: 10000,
+    backgroundColor: '#1DA1F2',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   footer: {
     backgroundColor: '#e5e5e5',

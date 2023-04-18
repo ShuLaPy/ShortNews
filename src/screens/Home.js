@@ -5,17 +5,34 @@ import ViewPager from '@react-native-community/viewpager';
 import NewsCards from './NewsCards';
 import NewsCategory from './NewsCategory';
 import NewsWeb from './NewsWeb';
+import {useDispatch, useSelector} from 'react-redux';
+import Tts from 'react-native-tts';
+import {stopPlaying} from '../redux/actions';
 
 const Home = () => {
   const carouselRef = useRef(null);
   const viewpagerRef = useRef(null);
 
-  const moveToPage = (index) => {
+  const dispatch = useDispatch();
+  const {isPlaying} = useSelector(state => state.shorts);
+
+  const moveToPage = index => {
     viewpagerRef.current.setPage(index);
   };
 
+  const handleTTS = data => {
+    if (data.nativeEvent.position !== 1 && isPlaying) {
+      Tts.stop();
+      dispatch(stopPlaying());
+    }
+  };
+
   return (
-    <ViewPager style={styles.container} initialPage={1} ref={viewpagerRef}>
+    <ViewPager
+      style={styles.container}
+      initialPage={1}
+      ref={viewpagerRef}
+      onPageSelected={handleTTS}>
       <View key="1">
         <NewsCategory carouselRef={carouselRef} moveToPage={moveToPage} />
       </View>

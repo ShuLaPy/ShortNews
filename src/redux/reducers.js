@@ -4,6 +4,7 @@ export const ShortsReducer = (
   state = {
     shortsList: [],
     bookmarks: [],
+    isPlaying: false,
   },
   action,
 ) => {
@@ -24,6 +25,10 @@ export const ShortsReducer = (
         post => post.title !== action.payload.title,
       );
       return {...state, bookmarks: [...newBookmarks]};
+    case ShortsConstants.START_PLAYING:
+      return {...state, isPlaying: true};
+    case ShortsConstants.STOP_PLAYING:
+      return {...state, isPlaying: false};
     default:
       return state;
   }
