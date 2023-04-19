@@ -20,6 +20,7 @@ import {
   fetchLatestBookmarks,
   setLanguage,
 } from '../redux/actions';
+import Tts from 'react-native-tts';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const MARGIN_HORIZONTAL = 24;
@@ -99,25 +100,26 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
       });
   }, []);
 
-  const setNewsLanguage = value => {
-    dispatch(setLanguage(value));
+  const setNewsLanguage = item => {
+    dispatch(setLanguage(item.code));
     setIsFocus(false);
     dispatch(fetchLatesthorts(selectedCategory)).catch(err => console.log(err));
+    Tts.setDefaultLanguage(item.voice);
   };
 
   const data = [
-    {name: 'Marathi', code: 'mr'},
-    {name: 'Hindi', code: 'hi'},
-    {name: 'Kannada', code: 'kn'},
-    {name: 'Tamil', code: 'ta'},
-    {name: 'Telugu', code: 'te'},
-    {name: 'Malayalam', code: 'ml'},
-    {name: 'Gujarati', code: 'gu'},
-    {name: 'English', code: 'en'},
-    {name: 'French', code: 'fr'},
-    {name: 'German', code: 'de'},
-    {name: 'Japanese', code: 'ja'},
-    {name: 'Russian', code: 'ru'},
+    {name: 'Marathi', code: 'mr', voice: 'mr-IN'},
+    {name: 'Hindi', code: 'hi', voice: 'hi-IN'},
+    {name: 'Kannada', code: 'kn', voice: 'kn-IN'},
+    {name: 'Tamil', code: 'ta', voice: 'ta-IN'},
+    {name: 'Telugu', code: 'te', voice: 'te-IN'},
+    {name: 'Malayalam', code: 'ml', voice: 'ml-IN'},
+    {name: 'Gujarati', code: 'gu', voice: 'gu-IN'},
+    {name: 'English', code: 'en', voice: 'en-US'},
+    {name: 'French', code: 'fr', voice: 'fr-FR'},
+    {name: 'German', code: 'de', voice: 'de-DE'},
+    {name: 'Japanese', code: 'ja', voice: 'ja-JP'},
+    {name: 'Russian', code: 'ru', voice: 'ru-RU'},
   ];
 
   return (
@@ -219,7 +221,7 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
           labelField="name"
           valueField="code"
           value={language}
-          onChange={item => setNewsLanguage(item.code)}
+          onChange={item => setNewsLanguage(item)}
         />
       </ScrollView>
     </View>
