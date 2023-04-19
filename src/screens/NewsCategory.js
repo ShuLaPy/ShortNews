@@ -215,6 +215,7 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
           style={styles.dropdown}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
+          itemTextStyle={styles.itemTextStyle}
           placeholder={!isFocus ? 'Select Language' : '...'}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
@@ -282,9 +283,15 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 16,
+    color: 'black',
   },
   selectedTextStyle: {
     fontSize: 16,
+    color: 'blue',
+  },
+  itemTextStyle: {
+    fontSize: 16,
+    color: 'black',
   },
 });
 
