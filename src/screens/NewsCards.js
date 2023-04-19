@@ -18,11 +18,10 @@ const {width, height} = Dimensions.get('window');
 
 const NewsCards = ({carouselRef, moveToPage}) => {
   const [articles, setArticles] = useState();
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const shorts = useSelector(state => state.shorts);
-  const {shortsList} = shorts;
+  const {shortsList, loading} = shorts;
 
   const card = useSelector(state => state.card);
 
@@ -43,15 +42,9 @@ const NewsCards = ({carouselRef, moveToPage}) => {
   };
 
   const fetchShorts = () => {
-    setLoading(true);
-    dispatch(fetchLatesthorts('all_news'))
-      .then(resp => {
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log('Error : ', err);
-        setLoading(false);
-      });
+    dispatch(fetchLatesthorts('all_news')).catch(err => {
+      console.log('Error : ', err);
+    });
   };
 
   useEffect(() => {

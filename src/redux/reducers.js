@@ -5,6 +5,8 @@ export const ShortsReducer = (
     shortsList: [],
     bookmarks: [],
     isPlaying: false,
+    language: 'en',
+    loading: false,
   },
   action,
 ) => {
@@ -29,6 +31,12 @@ export const ShortsReducer = (
       return {...state, isPlaying: true};
     case ShortsConstants.STOP_PLAYING:
       return {...state, isPlaying: false};
+    case ShortsConstants.START_LOADING:
+      return {...state, loading: true};
+    case ShortsConstants.STOP_LOADING:
+      return {...state, loading: false};
+    case ShortsConstants.SET_LANGUAGE:
+      return {...state, language: action.payload};
     default:
       return state;
   }

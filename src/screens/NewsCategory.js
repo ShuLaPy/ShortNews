@@ -6,18 +6,19 @@ import {
   StyleSheet,
   FlatList,
   Pressable,
-  Image,
   TouchableOpacity,
   ScrollView,
   Dimensions,
   BackHandler,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {useDispatch} from 'react-redux';
+import {Dropdown} from 'react-native-element-dropdown';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   fetchLatesthorts,
   setCategory,
   fetchLatestBookmarks,
+  setLanguage,
 } from '../redux/actions';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
@@ -49,7 +50,11 @@ const CATEGORIES = [
 
 const NewsCategory = ({carouselRef, moveToPage}) => {
   const [list, setList] = useState([]);
+  const [isFocus, setIsFocus] = useState(false);
   const dispatch = useDispatch();
+
+  const {language} = useSelector(state => state.shorts);
+  const selectedCategory = useSelector(state => state.category);
 
   const fetchShorts = category => {
     console.log('Selected Category', category);
@@ -93,6 +98,27 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
         console.log(error);
       });
   }, []);
+
+  const setNewsLanguage = value => {
+    dispatch(setLanguage(value));
+    setIsFocus(false);
+    dispatch(fetchLatesthorts(selectedCategory)).catch(err => console.log(err));
+  };
+
+  const data = [
+    {name: 'Marathi', code: 'mr'},
+    {name: 'Hindi', code: 'hi'},
+    {name: 'Kannada', code: 'kn'},
+    {name: 'Tamil', code: 'ta'},
+    {name: 'Telugu', code: 'te'},
+    {name: 'Malayalam', code: 'ml'},
+    {name: 'Gujarati', code: 'gu'},
+    {name: 'English', code: 'en'},
+    {name: 'French', code: 'fr'},
+    {name: 'German', code: 'de'},
+    {name: 'Japanese', code: 'ja'},
+    {name: 'Russian', code: 'ru'},
+  ];
 
   return (
     <View style={styles.container}>
@@ -180,6 +206,21 @@ const NewsCategory = ({carouselRef, moveToPage}) => {
             );
           })}
         </View>
+        <Text style={styles.title}>SELECT NEWS LANGUAGE</Text>
+        <View style={styles.divider} />
+        <Dropdown
+          data={data}
+          style={styles.dropdown}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          placeholder={!isFocus ? 'Select Language' : '...'}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          labelField="name"
+          valueField="code"
+          value={language}
+          onChange={item => setNewsLanguage(item.code)}
+        />
       </ScrollView>
     </View>
   );
@@ -228,6 +269,20 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'bold',
     fontWeight: '700',
+  },
+  dropdown: {
+    height: 50,
+    marginBottom: 20,
+    borderColor: '#369af8AA',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 8,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
   },
 });
 

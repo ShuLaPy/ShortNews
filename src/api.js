@@ -1,9 +1,11 @@
 import axios from 'axios';
 
-const fetchShorts = async category => {
+const fetchShorts = async (category, language = 'en') => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`https://shortnews.onrender.com/shorts?category=${category}`)
+      .get(
+        `https://shortnews.onrender.com/shorts?category=${category}&lang=${language}`,
+      )
       .then(response => {
         resolve(response);
       })
