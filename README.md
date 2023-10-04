@@ -19,13 +19,9 @@ Feel free to use and modify the project according to your needs, but be aware of
 
 ## Screenshots
 
-### Home Screen
-
-![Home Screen](/assets/home-screen.jpg)
-
-### Language Selection
-
-![Language Selection](/assets/language-selection-screen.jpg)
+**Home Screen**                |  **Language Selection**
+:-------------------------:|:-------------------------:
+![Home Screen](/assets/home-screen.jpg)  |  ![Language Selection](/assets/language-selection-screen.jpg)
 
 ### News Article
 
@@ -33,13 +29,10 @@ Feel free to use and modify the project according to your needs, but be aware of
 :-------------------------:|:-------------------------:
 ![News Article](/assets/news-screen.jpg)  |  ![News Article Translated](/assets/translated-news-screen.jpg)
 
-### News Listening
 
-![News Listening](/assets/audio-screen.jpg)
-
-### Read Original Article
-
-![Read Original Article](/assets/read-original-news-screen.jpg)
+**News Listening**                |  **Read Original Article**
+:-------------------------:|:-------------------------:
+![News Listening](/assets/audio-screen.jpg)  |  ![Read Original Article](/assets/read-original-news-screen.jpg)
 
 ## Getting Started
 
